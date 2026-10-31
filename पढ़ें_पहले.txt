@@ -1,0 +1,6 @@
+Mahendra MP Online — v45 (82 टूल्स)
+=====================================
+1. shop-config.js खोलकर अपना phone / whatsapp / address / hours / shopName भरें (खाली रहे तो दिखेगा नहीं)।
+2. अगर अपना domain लगाएँ तो sitemap.xml और robots.txt में पुराना netlify address बदल दें.
+3. इस पूरे folder को Netlify में drag-drop करें।
+नोट: Word/Excel/PPT → PDF सिर्फ़ text लेते हैं (डिज़ाइन नहीं)। सब प्रोसेसिंग browser में होती है, कुछ upload नहीं होता।

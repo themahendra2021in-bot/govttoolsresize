@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahendra MP Online | फोटो Resize, आधार/PAN PDF Crop, ID Card Print और PDF टूल्स</title>
+  <meta name="description" content="फोटो-सिग्नेचर resize और KB कम करें, पासवर्ड वाले आधार/PAN PDF से कार्ड crop करें, ID कार्ड/RC/DL print करें, JPG से PDF बनाएं। फ़ाइलें आपके ब्राउज़र में ही प्रोसेस होती हैं।">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0f4c81">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="hi_IN">
+  <meta property="og:title" content="Mahendra MP Online — Photo, Document, PDF और Print टूल्स">
+  <meta property="og:description" content="फोटो resize, ID कार्ड crop/print, PDF बनाएं — सब कुछ आपके ब्राउज़र में, फ़ाइल upload किए बिना।">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Mahendra MP Online","inLanguage":"hi-IN","description":"Photo resize, ID card crop and print, PDF tools for Indian documents — processed locally in the browser."}</script>
+</head>
+<body>
+<a class="skip-link" href="#toolGrid">मुख्य सामग्री पर जाएँ</a>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo" aria-hidden="true">M</div>
+    <div>
+      <h1>Mahendra MP Online</h1>
+      <p>82 Tools • Photo • Document • PDF • Print</p>
+    </div>
+  </div>
+  <nav class="top-links" aria-label="मुख्य लिंक">
+    <a href="#special-tools">आधार / DL / RC</a>
+    <a href="#contact">संपर्क</a>
+    <a href="privacy.html">Privacy</a>
+  </nav>
+</header>
+
+<noscript><div class="noscript-msg">इस वेबसाइट के टूल्स चलाने के लिए ब्राउज़र में JavaScript चालू होना ज़रूरी है।</div></noscript>
+<div class="privacy-ribbon" role="note">🔒 आपकी फ़ाइलें इसी ब्राउज़र में प्रोसेस होती हैं — कहीं upload नहीं होतीं।</div>
+<section class="simple-home">
+  <div class="simple-welcome">
+    <span class="simple-kicker">आपकी डिजिटल सेवा की दुकान</span>
+    <h2>कौन-सा काम करना है?</h2>
+    <p>एक विकल्प चुनें, फ़ाइल डालें और डाउनलोड करें।</p>
+  </div>
+  <div class="simple-shortcuts">
+    <button onclick="openTool('photo-resize')"><span>📸</span><b>फोटो</b><small>Resize / Compress</small></button>
+    <button onclick="openTool('aadhaar')"><span>🪪</span><b>ID कार्ड</b><small>Crop / Print</small></button>
+    <button onclick="openTool('jpg-pdf')"><span>📄</span><b>PDF बनाएं</b><small>फोटो से PDF</small></button>
+    <button onclick="openTool('driving-licence-center')"><span>🚘</span><b>DL / RC</b><small>Crop / Print</small></button>
+  </div>
+</section>
+
+<nav id="nav" class="nav simple-nav">
+  <button class="active" onclick="filterTools('all',this)">सभी काम</button>
+  <button onclick="filterTools('document',this)">ID कार्ड</button>
+  <button onclick="filterTools('photo',this)">फोटो</button>
+  <button onclick="filterTools('pdf',this)">PDF</button>
+  <button onclick="filterTools('exam',this)">Exam</button>
+  <button onclick="filterTools('print',this)">प्रिंट</button>
+  <button onclick="filterTools('resize',this)">Resize</button>
+  <button onclick="filterTools('utility',this)">उपयोगी</button>
+</nav>
+
+<main>
+  <div class="section-head">
+    <div>
+      <h2>सभी काम</h2>
+      <p id="toolCount">अपना काम नीचे चुनें</p>
+    </div>
+    <input id="search" type="search" placeholder="काम खोजें, जैसे Aadhaar, फोटो, PDF..." oninput="searchTools()">
+  </div>
+  <div id="toolGrid" class="tool-grid" role="list"></div>
+</main>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <button class="close" onclick="closeTool()">×</button>
+    <div id="toolContent"></div>
+  </div>
+</div>
+
+<div class="special-tools" id="special-tools">
+  <div class="special-intro">
+    <h2>आधार / PAN / DL / RC — विशेष टूल्स</h2>
+    <p>पासवर्ड वाली PDF खोलें, कार्ड crop करें और सही आकार में print करें।</p>
+  </div>
+<section class="tool-section v25-pdf-password" id="v25-pdf-password">
+  <div class="section-head"><div><span class="mini-badge">आधार / PAN PDF</span><h2>🔐 पासवर्ड वाले आधार / PAN PDF खोलें और Crop करें</h2><p>पासवर्ड-सुरक्षित PDF चुनें → पासवर्ड डालें → पेज खोलें → Crop करके JPG/PNG डाउनलोड करें।</p></div></div>
+  <div class="v25-grid">
+    <div class="v25-card"><h3>1. PDF और पासवर्ड</h3><label class="v25-label">PDF फ़ाइल</label><input id="v25PdfFile" type="file" accept="application/pdf"><label class="v25-label">PDF पासवर्ड</label><input id="v25PdfPassword" type="password" placeholder="पासवर्ड दर्ज करें"><div class="v25-actions"><button class="primary-btn" id="v25OpenPdf">🔓 PDF खोलें</button><button class="secondary-btn" id="v25ClearPdf">साफ़ करें</button></div><div id="v25PdfStatus" class="v25-status">अभी कोई PDF नहीं चुनी गई।</div><p class="v25-note">पासवर्ड आपके ब्राउज़र में ही उपयोग किया जाता है। इसमें PDF को किसी server पर भेजने की आवश्यकता नहीं है।</p></div>
+    <div class="v25-card"><h3>2. पेज चुनें</h3><label class="v25-label">Page Number</label><input id="v25PageNumber" type="number" min="1" value="1"><label class="v25-label">Render Scale</label><select id="v25Scale"><option value="1.5">1.5×</option><option value="2" selected>2× HQ</option><option value="3">3× बहुत उच्च गुणवत्ता</option></select><button class="primary-btn full" id="v25RenderPage">🖼️ पेज खोलें</button><div id="v25PageInfo" class="v25-status">PDF खुलने के बाद पेज की जानकारी यहाँ दिखेगी।</div></div>
+  </div>
+  <div class="v25-card"><h3>3. Crop और Download</h3><div class="v25-crop-controls"><label>X <input id="v25X" type="number" min="0" value="0"></label><label>Y <input id="v25Y" type="number" min="0" value="0"></label><label>Width <input id="v25W" type="number" min="1" value="100"></label><label>Height <input id="v25H" type="number" min="1" value="100"></label></div><div class="v25-canvas-wrap"><canvas id="v25PdfCanvas"></canvas><div id="v25Empty" class="v25-empty">PDF खोलकर पेज render करें।</div></div><div class="v25-actions"><button class="secondary-btn" id="v25UseFull">पूरा पेज</button><button class="primary-btn" id="v25CropDownload">✂️ Crop करके JPG डाउनलोड करें</button><button class="secondary-btn" id="v25CropPng">PNG डाउनलोड करें</button></div><div id="v25CropStatus" class="v25-status"></div></div>
+  <div class="v25-card v25-warning"><strong>महत्वपूर्ण:</strong> यह सुविधा पासवर्ड-सुरक्षित PDF को <b>सही पासवर्ड</b> से खोलने के लिए है। पासवर्ड को bypass/crack करने की सुविधा नहीं है। कुछ PDF में अलग तरह की security हो सकती है। PDF.js library इस सुविधा के लिए इंटरनेट से लोड होती है; बाकी image processing browser में local रहती है।</div>
+</section>
+<section class="tool-section v26-card-presets" id="v26-card-presets">
+  <div class="section-head">
+    <div>
+      <span class="mini-badge">Card Crop</span>
+      <h2>🪪 आधार / PAN कार्ड — आसान Crop Preset</h2>
+      <p>पासवर्ड से PDF खोलने के बाद अब कार्ड के लिए तैयार Crop Preset चुनें और तुरंत Crop करें।</p>
+    </div>
+  </div>
+
+  <div class="v26-grid">
+    <div class="v26-card">
+      <h3>1. कार्ड Preset</h3>
+      <label class="v26-label">कार्ड का प्रकार</label>
+      <select id="v26Preset">
+        <option value="a4">पूरा पेज (A4)</option>
+        <option value="card">ID Card — 85.6 × 54 mm अनुपात</option>
+        <option value="pan">PAN Card — 85.6 × 54 mm अनुपात</option>
+        <option value="photo">35 × 45 mm फोटो अनुपात</option>
+        <option value="custom">Custom Crop</option>
+      </select>
+
+      <label class="v26-label">Crop Mode</label>
+      <select id="v26Mode">
+        <option value="center">Center Crop</option>
+        <option value="fit">Fit / पूरा उपलब्ध क्षेत्र</option>
+      </select>
+
+      <div class="v26-actions">
+        <button class="primary-btn" id="v26ApplyPreset">⚡ Preset लागू करें</button>
+        <button class="secondary-btn" id="v26FullPage">पूरा पेज</button>
+      </div>
+      <div id="v26PresetStatus" class="v26-status">
+        पहले ऊपर “पासवर्ड वाले PDF” में PDF खोलकर पेज खोलें।
+      </div>
+    </div>
+
+    <div class="v26-card">
+      <h3>2. Crop क्षेत्र</h3>
+      <div class="v26-fields">
+        <label>X <input id="v26X" type="number" min="0" value="0"></label>
+        <label>Y <input id="v26Y" type="number" min="0" value="0"></label>
+        <label>Width <input id="v26W" type="number" min="1" value="100"></label>
+        <label>Height <input id="v26H" type="number" min="1" value="100"></label>
+      </div>
+      <div class="v26-actions">
+        <button class="primary-btn" id="v26ApplyXY">Crop क्षेत्र लागू करें</button>
+        <button class="secondary-btn" id="v26CopyValues">मान कॉपी करें</button>
+      </div>
+      <div id="v26ValueStatus" class="v26-status"></div>
+    </div>
+  </div>
+
+  <div class="v26-card">
+    <h3>3. Crop Preview</h3>
+    <div class="v26-preview-grid">
+      <div class="v26-preview-box">
+        <div class="v26-preview-title">PDF Page</div>
+        <canvas id="v26SourceCanvas"></canvas>
+      </div>
+      <div class="v26-preview-box">
+        <div class="v26-preview-title">Crop Preview</div>
+        <canvas id="v26CropPreview"></canvas>
+      </div>
+    </div>
+    <div class="v26-actions">
+      <button class="primary-btn" id="v26DownloadJpg">⬇️ JPG डाउनलोड</button>
+      <button class="secondary-btn" id="v26DownloadPng">⬇️ PNG डाउनलोड</button>
+      <button class="secondary-btn" id="v26PrintCrop">🖨️ Crop प्रिंट</button>
+    </div>
+    <div id="v26DownloadStatus" class="v26-status"></div>
+  </div>
+
+  <div class="v26-card v26-info">
+    <strong>Preset के बारे में:</strong>
+    PAN/ID Card preset कार्ड के सामान्य 85.6:54 mm अनुपात पर आधारित है।
+    यह केवल crop ratio है, आधिकारिक PDF layout की गारंटी नहीं। यदि किसी दस्तावेज़ का वास्तविक layout अलग हो,
+    तो Custom Crop या X/Y/Width/Height का उपयोग करें।
+  </div>
+</section>
+<section class="tool-section v27-dl-center" id="v27-dl-center">
+  <div class="section-head">
+    <div>
+      <span class="mini-badge">Driving Licence</span>
+      <h2>🚘 Driving Licence — सरकारी स्रोत से प्राप्त करें → Crop करें</h2>
+      <p>DL नंबर और जन्मतिथि की जानकारी तैयार रखें। आधिकारिक Parivahan/DigiLocker प्रक्रिया से दस्तावेज़ प्राप्त करने के बाद उसे इसी साइट में डालकर सीधे Crop/Download करें।</p>
+    </div>
+  </div>
+
+  <div class="v27-grid">
+    <div class="v27-card">
+      <h3>1. DL विवरण</h3>
+      <label class="v27-label">Driving Licence Number</label>
+      <input id="v27DlNo" type="text" placeholder="उदाहरण: MP0120230012345" autocomplete="off">
+      <label class="v27-label">जन्मतिथि</label>
+      <input id="v27Dob" type="date">
+      <div class="v27-actions">
+        <button class="primary-btn" id="v27OfficialBtn">🌐 आधिकारिक Parivahan खोलें</button>
+        <button class="secondary-btn" id="v27DigiBtn">🔐 DigiLocker खोलें</button>
+      </div>
+      <div class="v27-status">
+        <b>महत्वपूर्ण:</b> यह टूल सरकारी login/CAPTCHA या सुरक्षा को bypass नहीं करता। आधिकारिक साइट पर जो authentication/consent मांगा जाए, वही पूरा करें।
+      </div>
+    </div>
+
+    <div class="v27-card">
+      <h3>2. प्राप्त DL फ़ाइल</h3>
+      <label class="v27-label">Downloaded / Saved DL PDF</label>
+      <input id="v27DlFile" type="file" accept="application/pdf,image/jpeg,image/png,image/webp">
+      <label class="v27-label">PDF Password (यदि PDF सुरक्षित है)</label>
+      <input id="v27PdfPassword" type="password" placeholder="सही original password">
+      <div class="v27-actions">
+        <button class="primary-btn" id="v27LoadFile">📂 फ़ाइल खोलें</button>
+        <button class="secondary-btn" id="v27Clear">साफ़ करें</button>
+      </div>
+      <div id="v27FileStatus" class="v27-status">अभी कोई DL फ़ाइल नहीं चुनी गई।</div>
+    </div>
+  </div>
+
+  <div class="v27-card">
+    <h3>3. Direct Crop</h3>
+    <div class="v27-preset-row">
+      <label>Preset
+        <select id="v27Preset">
+          <option value="card">DL Card — 85.6 × 54 mm ratio</option>
+          <option value="page">पूरा पेज</option>
+          <option value="custom">Custom</option>
+        </select>
+      </label>
+      <label>Page
+        <input id="v27Page" type="number" min="1" value="1">
+      </label>
+      <label>Scale
+        <select id="v27Scale">
+          <option value="1.5">1.5×</option>
+          <option value="2" selected>2× HQ</option>
+          <option value="3">3× HQ</option>
+        </select>
+      </label>
+    </div>
+    <div class="v27-actions">
+      <button class="primary-btn" id="v27ApplyPreset">⚡ DL Crop Preset</button>
+      <button class="secondary-btn" id="v27FullPage">पूरा पेज</button>
+    </div>
+
+    <div class="v27-fields">
+      <label>X<input id="v27X" type="number" min="0" value="0"></label>
+      <label>Y<input id="v27Y" type="number" min="0" value="0"></label>
+      <label>Width<input id="v27W" type="number" min="1" value="100"></label>
+      <label>Height<input id="v27H" type="number" min="1" value="100"></label>
+    </div>
+
+    <div class="v27-preview-grid">
+      <div class="v27-preview-box">
+        <div class="v27-preview-title">Original / PDF Page</div>
+        <canvas id="v27Source"></canvas>
+      </div>
+      <div class="v27-preview-box">
+        <div class="v27-preview-title">DL Crop Preview</div>
+        <canvas id="v27Crop"></canvas>
+      </div>
+    </div>
+
+    <div class="v27-actions">
+      <button class="primary-btn" id="v27Jpg">⬇️ JPG</button>
+      <button class="secondary-btn" id="v27Png">⬇️ PNG</button>
+      <button class="secondary-btn" id="v27Pdf">📄 Crop PDF</button>
+      <button class="secondary-btn" id="v27Print">🖨️ Print</button>
+    </div>
+    <div id="v27CropStatus" class="v27-status"></div>
+  </div>
+
+  <div class="v27-card v27-info">
+    <strong>सरकारी स्रोत:</strong> DigiLocker के अनुसार Digital Driving Licence MoRTH के National Register से fetch किया जाता है।
+    DigiLocker में Aadhaar-linked/verified account और record matching जैसी शर्तें लागू हो सकती हैं। इसलिए v27 आधिकारिक
+    Parivahan/DigiLocker प्रक्रिया को bypass करने के बजाय उसके बाद local crop/convert सुविधा देता है।
+  </div>
+</section>
+<section class="tool-section v28-rc-center" id="v28-rc-center">
+  <div class="section-head">
+    <div>
+      <span class="mini-badge">RC</span>
+      <h2>🚗 Registration Certificate (RC) — फोटो/PDF से सीधे Print</h2>
+      <p>आपकी RC की फोटो, स्कैन या PDF को स्थानीय रूप से खोलकर RC कार्ड के अनुपात में तैयार करें और JPG, PNG, PDF या सीधे Print करें।</p>
+    </div>
+  </div>
+
+  <div class="v28-steps">
+    <div><b>1</b><span>RC फोटो/PDF चुनें</span></div>
+    <div><b>2</b><span>पेज चुनें / Crop करें</span></div>
+    <div><b>3</b><span>JPG • PNG • PDF • Print</span></div>
+  </div>
+
+  <div class="v28-grid">
+    <div class="v28-card">
+      <h3>1. RC विवरण</h3>
+      <label class="v28-label">Registration Number (वैकल्पिक)</label>
+      <input id="v28RcNo" type="text" placeholder="उदाहरण: MP04AB1234" autocomplete="off">
+      <label class="v28-label">Chassis Number — Last 5 Characters (वैकल्पिक)</label>
+      <input id="v28Chassis" type="text" maxlength="5" placeholder="आखिरी 5 अक्षर" autocomplete="off">
+      <div class="v28-actions">
+        <button class="primary-btn" id="v28VahanBtn">🌐 आधिकारिक VAHAN खोलें</button>
+      </div>
+      <div class="v28-status"><b>महत्वपूर्ण:</b> v28 सरकारी VAHAN रिकॉर्ड को bypass या scrape नहीं करता। आधिकारिक प्रक्रिया से प्राप्त RC फोटो/PDF को ही यहाँ local processing के लिए इस्तेमाल करें।</div>
+    </div>
+
+    <div class="v28-card">
+      <h3>2. RC फ़ाइल</h3>
+      <label class="v28-label">RC Photo / Scan / PDF</label>
+      <input id="v28RcFile" type="file" accept="application/pdf,image/jpeg,image/png,image/webp">
+      <label class="v28-label">PDF Password (यदि PDF सुरक्षित है)</label>
+      <input id="v28PdfPassword" type="password" placeholder="सही original password">
+      <div class="v28-actions">
+        <button class="primary-btn" id="v28LoadFile">📂 RC खोलें</button>
+        <button class="secondary-btn" id="v28Clear">साफ़ करें</button>
+      </div>
+      <div id="v28FileStatus" class="v28-status">अभी कोई RC फ़ाइल नहीं चुनी गई।</div>
+    </div>
+  </div>
+
+  <div class="v28-card">
+    <h3>3. RC Card Crop & Direct Print</h3>
+    <div class="v28-preset-row">
+      <label>Preset
+        <select id="v28Preset">
+          <option value="card">RC Card — 85.6 × 54 mm ratio</option>
+          <option value="page">पूरा पेज</option>
+          <option value="custom">Custom</option>
+        </select>
+      </label>
+      <label>Page
+        <input id="v28Page" type="number" min="1" value="1">
+      </label>
+      <label>Scale
+        <select id="v28Scale">
+          <option value="1.5">1.5×</option>
+          <option value="2" selected>2× HQ</option>
+          <option value="3">3× HQ</option>
+        </select>
+      </label>
+    </div>
+    <div class="v28-actions">
+      <button class="primary-btn" id="v28ApplyPreset">⚡ RC Card Crop</button>
+      <button class="secondary-btn" id="v28FullPage">पूरा पेज</button>
+    </div>
+
+    <div class="v28-fields">
+      <label>X<input id="v28X" type="number" min="0" value="0"></label>
+      <label>Y<input id="v28Y" type="number" min="0" value="0"></label>
+      <label>Width<input id="v28W" type="number" min="1" value="100"></label>
+      <label>Height<input id="v28H" type="number" min="1" value="100"></label>
+    </div>
+
+    <div class="v28-preview-grid">
+      <div class="v28-preview-box">
+        <div class="v28-preview-title">RC Original / PDF Page</div>
+        <canvas id="v28Source"></canvas>
+      </div>
+      <div class="v28-preview-box">
+        <div class="v28-preview-title">RC Crop Preview</div>
+        <canvas id="v28Crop"></canvas>
+      </div>
+    </div>
+
+    <div class="v28-actions v28-output-actions">
+      <button class="primary-btn" id="v28Jpg">⬇️ JPG</button>
+      <button class="secondary-btn" id="v28Png">⬇️ PNG</button>
+      <button class="secondary-btn" id="v28Pdf">📄 PDF</button>
+      <button class="secondary-btn" id="v28Print">🖨️ Direct Print</button>
+    </div>
+    <div id="v28CropStatus" class="v28-status"></div>
+  </div>
+
+  <div class="v28-card v28-info">
+    <strong>RC workflow:</strong> VAHAN/अन्य आधिकारिक स्रोत से प्राप्त RC document → फोटो/PDF यहाँ Upload → सही पेज चुनें → RC Card preset → Crop → JPG/PNG/PDF या Print।
+    85.6 × 54 mm केवल सामान्य कार्ड अनुपात है; यह किसी सरकारी RC का प्रमाणित official print layout नहीं है।
+  </div>
+</section>
+<section class="tool-section v30-card-overview" id="v30-card-overview">
+  <div class="section-head">
+    <div>
+      <span class="mini-badge">PVC Print</span>
+      <h2>🪪 PVC / ID Card Print Center</h2>
+      <p>आधार, PAN, Voter, आयुष्मान, ABHA, ई-श्रम, राशन कार्ड जैसे दस्तावेज़ों के लिए स्थानीय फोटो/PDF से वास्तविक PVC/ID-card physical size में JPG, PNG, A4 PDF और Print तैयार करें।</p>
+    </div>
+  </div>
+  <div class="v30-overview-grid">
+    <div class="v30-overview-card"><b>85.6 × 54 mm</b><span>सामान्य PVC/ID Card size</span></div>
+    <div class="v30-overview-card"><b>300 / 600 DPI</b><span>HQ output canvas</span></div>
+    <div class="v30-overview-card"><b>JPG • PNG • PDF</b><span>डाउनलोड विकल्प</span></div>
+    <div class="v30-overview-card"><b>Direct Print</b><span>Actual-size print workflow</span></div>
+  </div>
+  <div class="v30-overview-note">ऊपर के सभी document cards (आधार, PAN, Voter, आयुष्मान, ABHA, ई-श्रम, राशन कार्ड) खोलते ही PVC/ID Card Print Studio मिलता है। सरकारी दस्तावेज़ का official layout/आकार वही मानें जो संबंधित विभाग की सूचना में दिया हो।</div>
+</section>
+</div>
+
+<details class="adv-tools" id="adv-tools">
+  <summary>🧰 और टूल्स — Batch Resize, Signature, Photo Sheet <span>(खोलने के लिए दबाएँ)</span></summary>
+<section class="v7-section" id="v7-tools">
+  <div class="section-head">
+    <h2>🚀 Print & Document Studio</h2>
+    <p>कई फोटो एक साथ, print लेआउट और document crop</p>
+  </div>
+
+  <div class="v7-grid">
+    <article class="tool-card v7-card">
+      <div class="tool-icon">🖼️</div>
+      <h3>Batch Image Resize & Compress</h3>
+      <p>एक साथ कई फोटो का आकार, DPI और लक्ष्य KB निर्धारित करें।</p>
+      <input id="v7BatchImages" type="file" accept="image/*" multiple>
+      <div class="mini-controls">
+        <label>चौड़ाई <input id="v7BatchW" type="number" placeholder="जैसे 413"></label>
+        <label>ऊँचाई <input id="v7BatchH" type="number" placeholder="जैसे 531"></label>
+        <label>DPI <input id="v7BatchDpi" type="number" value="300"></label>
+        <label>अधिकतम KB <input id="v7BatchKb" type="number" placeholder="वैकल्पिक"></label>
+      </div>
+      <button class="primary-btn" id="v7BatchRun">Batch तैयार करें</button>
+      <div id="v7BatchResults" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v7-card">
+      <div class="tool-icon">🔄</div>
+      <h3>Image Format Converter</h3>
+      <p>JPG, PNG और WebP में स्थानीय रूप से रूपांतरण करें।</p>
+      <input id="v7FormatImage" type="file" accept="image/*">
+      <label>प्रारूप
+        <select id="v7Format">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </label>
+      <button class="primary-btn" id="v7FormatRun">Convert & Download</button>
+      <div id="v7FormatResult" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v7-card">
+      <div class="tool-icon">📐</div>
+      <h3>Custom Print Layout</h3>
+      <p>फोटो की संख्या, आकार और A4/4×6 शीट का प्रिंट लेआउट तैयार करें।</p>
+      <input id="v7PrintImages" type="file" accept="image/*" multiple>
+      <div class="mini-controls">
+        <label>शीट
+          <select id="v7Paper">
+            <option value="A4">A4</option>
+            <option value="4x6">4×6 inch</option>
+          </select>
+        </label>
+        <label>फोटो चौड़ाई (mm) <input id="v7PhotoWmm" type="number" value="35"></label>
+        <label>फोटो ऊँचाई (mm) <input id="v7PhotoHmm" type="number" value="45"></label>
+        <label>अंतर (mm) <input id="v7Gapmm" type="number" value="3"></label>
+      </div>
+      <button class="primary-btn" id="v7PrintRun">HQ Print Sheet</button>
+      <div id="v7PrintResult" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v7-card">
+      <div class="tool-icon">✂️</div>
+      <h3>Document Crop Templates</h3>
+      <p>दस्तावेज़ की फोटो से सामान्य कार्ड/दस्तावेज़ आकार का crop करें।</p>
+      <input id="v7DocImage" type="file" accept="image/*">
+      <label>Template
+        <select id="v7DocTemplate">
+          <option value="custom">Custom</option>
+          <option value="idcard">ID Card — 85.6×54 mm अनुपात</option>
+          <option value="a4">A4 — 210×297 mm अनुपात</option>
+          <option value="photo35x45">Photo — 35×45 mm अनुपात</option>
+        </select>
+      </label>
+      <button class="primary-btn" id="v7DocRun">Crop & Download</button>
+      <div id="v7DocResult" class="result-box"></div>
+    </article>
+  </div>
+
+  <div class="notice-box">
+    <strong>महत्वपूर्ण:</strong> ये image tools सीधे आपके ब्राउज़र में चलते हैं।
+    Aadhaar, PAN और परीक्षा-विशिष्ट आकार केवल आधिकारिक निर्देश देखकर ही final preset बनाए जाएँ।
+  </div>
+</section>
+<section class="v9-section" id="v9-tools">
+  <div class="section-head">
+    <h2>🚀 Professional Photo & Document Studio</h2>
+    <p>अब document crop, passport sheet, batch processing और print settings को एक workflow में इस्तेमाल करें।</p>
+  </div>
+
+  <div class="v9-grid">
+    <article class="tool-card v9-card">
+      <div class="tool-icon">🪪</div>
+      <h3>Document Card Crop Studio</h3>
+      <p>दस्तावेज़ की फोटो से card area चुनें, ratio लॉक करें और HQ output डाउनलोड करें।</p>
+      <input id="v9CropImage" type="file" accept="image/*">
+      <label>Template
+        <select id="v9CropTemplate">
+          <option value="free">Free Crop</option>
+          <option value="id">ID Card — 85.6×54 mm</option>
+          <option value="a4">A4 — 210×297 mm</option>
+          <option value="photo">Photo — 35×45 mm</option>
+        </select>
+      </label>
+      <div class="crop-preview-wrap"><canvas id="v9CropCanvas" width="900" height="520"></canvas></div>
+      <div class="mini-controls">
+        <label>X <input id="v9X" type="number" value="0"></label>
+        <label>Y <input id="v9Y" type="number" value="0"></label>
+        <label>Width <input id="v9CW" type="number" value="900"></label>
+        <label>Height <input id="v9CH" type="number" value="520"></label>
+      </div>
+      <button class="primary-btn" id="v9CropRun">HQ Crop & Download</button>
+      <div id="v9CropResult" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v9-card">
+      <div class="tool-icon">👤</div>
+      <h3>Passport Photo Sheet Pro</h3>
+      <p>35×45 mm जैसे print size के अनुसार A4 पर कई photos का print-ready sheet बनाएँ।</p>
+      <input id="v9PassImage" type="file" accept="image/*">
+      <div class="mini-controls">
+        <label>Width mm <input id="v9PassW" type="number" value="35"></label>
+        <label>Height mm <input id="v9PassH" type="number" value="45"></label>
+        <label>DPI <input id="v9PassDpi" type="number" value="300"></label>
+        <label>Gap mm <input id="v9PassGap" type="number" value="3"></label>
+        <label>Copies <input id="v9PassCopies" type="number" min="1" max="100" value="20"></label>
+      </div>
+      <button class="primary-btn" id="v9PassRun">A4 HQ Sheet बनाएं</button>
+      <div id="v9PassResult" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v9-card">
+      <div class="tool-icon">✍️</div>
+      <h3>Signature Studio</h3>
+      <p>Signature को target width/height, DPI और KB के अनुसार तैयार करें।</p>
+      <input id="v9SigImage" type="file" accept="image/*">
+      <div class="mini-controls">
+        <label>Width px <input id="v9SigW" type="number" value="300"></label>
+        <label>Height px <input id="v9SigH" type="number" value="100"></label>
+        <label>DPI <input id="v9SigDpi" type="number" value="300"></label>
+        <label>Max KB <input id="v9SigKb" type="number" value="100"></label>
+      </div>
+      <button class="primary-btn" id="v9SigRun">Signature तैयार करें</button>
+      <div id="v9SigResult" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v9-card">
+      <div class="tool-icon">🖼️</div>
+      <h3>Batch Photo Presets</h3>
+      <p>एक साथ कई photos को समान dimensions और compression में तैयार करें।</p>
+      <input id="v9BatchImage" type="file" accept="image/*" multiple>
+      <div class="mini-controls">
+        <label>Preset
+          <select id="v9BatchPreset">
+            <option value="413x531">413×531 px</option>
+            <option value="300x100">300×100 px</option>
+            <option value="600x800">600×800 px</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <label>Max KB <input id="v9BatchMaxKb" type="number" value="200"></label>
+        <label>Custom W <input id="v9BatchCustomW" type="number" value="413"></label>
+        <label>Custom H <input id="v9BatchCustomH" type="number" value="531"></label>
+      </div>
+      <button class="primary-btn" id="v9BatchRun">Batch Process</button>
+      <div id="v9BatchResult" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v9-card">
+      <div class="tool-icon">⚙️</div>
+      <h3>Print Settings Checker</h3>
+      <p>Print size और DPI से expected pixel dimensions निकालें।</p>
+      <div class="mini-controls">
+        <label>Width mm <input id="v9CheckW" type="number" value="35"></label>
+        <label>Height mm <input id="v9CheckH" type="number" value="45"></label>
+        <label>DPI <input id="v9CheckDpi" type="number" value="300"></label>
+      </div>
+      <button class="primary-btn" id="v9CheckRun">Check Pixels</button>
+      <div id="v9CheckResult" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v9-card">
+      <div class="tool-icon">🧰</div>
+      <h3>Quick Tools Hub</h3>
+      <p>काम शुरू करने के लिए सीधे मुख्य workflows पर जाएँ।</p>
+      <div class="quick-links">
+        <a href="#v7-tools">Batch Resize / Format / Print</a>
+        <a href="#toolGrid">सभी टूल्स</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="notice-box">
+    <strong>Requirement सुरक्षा:</strong> परीक्षा, भर्ती, Aadhaar, PAN या किसी संस्था के exact Photo/Signature size,
+    DPI और KB को केवल official notification से सत्यापित करके ही final preset मानें।
+  </div>
+</section>
+<section class="v13-section" id="v13-tools">
+  <div class="section-head">
+    <h2>⚙️ Universal Image Processing Studio</h2>
+    <p>एक ही जगह पर फोटो, हस्ताक्षर और दस्तावेज़ के लिए Resize, KB, DPI, Format और Quality नियंत्रण।</p>
+  </div>
+
+  <div class="v13-notice">
+    <strong>HQ Workflow:</strong> Image चुनें → आकार/DPI/KB तय करें → Format चुनें → Quality जाँचें → HQ Output डाउनलोड करें।
+    सभी image processing browser में की जाती है।
+  </div>
+
+  <div class="v13-grid">
+    <article class="tool-card v13-card v13-main">
+      <div class="tool-icon">🛠️</div>
+      <h3>Universal Image Processor</h3>
+      <input id="v13Files" type="file" accept="image/*" multiple>
+      <div class="v13-controls">
+        <label>Width (px)<input id="v13W" type="number" min="1" placeholder="जैसे 413"></label>
+        <label>Height (px)<input id="v13H" type="number" min="1" placeholder="जैसे 531"></label>
+        <label>DPI<input id="v13Dpi" type="number" min="1" value="300"></label>
+        <label>Target KB<input id="v13Kb" type="number" min="1" placeholder="वैकल्पिक"></label>
+        <label>Format<select id="v13Fmt"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></label>
+        <label>Quality<input id="v13Q" type="range" min="40" max="100" value="92"><span id="v13Qv">92%</span></label>
+      </div>
+      <div class="v13-toolbar">
+        <button class="primary-btn" id="v13Process">HQ Process & Download</button>
+        <button class="secondary-btn" id="v13Reset">Reset</button>
+      </div>
+      <div id="v13Status" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v13-card">
+      <div class="tool-icon">📐</div>
+      <h3>Aspect Ratio & Size Lock</h3>
+      <label><input id="v13Lock" type="checkbox" checked> अनुपात बनाए रखें</label>
+      <div class="v13-ratio-box">
+        <div>Original: <b id="v13Original">—</b></div>
+        <div>Ratio: <b id="v13Ratio">—</b></div>
+        <div>Output: <b id="v13Output">—</b></div>
+      </div>
+      <p class="small-note">अनुपात लॉक होने पर width/height में बदलाव के अनुसार दूसरा आकार स्वतः समायोजित किया जा सकता है।</p>
+    </article>
+
+    <article class="tool-card v13-card">
+      <div class="tool-icon">🎯</div>
+      <h3>Exam Requirement Quick Profiles</h3>
+      <select id="v13Preset">
+        <option value="">प्रोफाइल चुनें</option>
+        <option data-w="413" data-h="531" data-dpi="300" data-kb="200">उदाहरण Photo — 413×531, 300 DPI, 200 KB</option>
+        <option data-w="300" data-h="100" data-dpi="300" data-kb="100">उदाहरण Signature — 300×100, 300 DPI, 100 KB</option>
+        <option data-w="200" data-h="230" data-dpi="300" data-kb="100">उदाहरण सामान्य Photo — 200×230, 300 DPI, 100 KB</option>
+      </select>
+      <div class="v13-notice mini">ये केवल उदाहरण हैं। अंतिम परीक्षा/भर्ती requirement official notification से सत्यापित करें।</div>
+    </article>
+
+    <article class="tool-card v13-card">
+      <div class="tool-icon">🔍</div>
+      <h3>Source Quality Guard</h3>
+      <div id="v13Quality" class="quality-meter">Image चुनने के बाद quality report यहाँ दिखेगी।</div>
+      <ul class="v13-checks">
+        <li id="v13ResCheck">Resolution: —</li>
+        <li id="v13PrintCheck">300 DPI पर अनुमानित print size: —</li>
+        <li id="v13FileCheck">File size: —</li>
+      </ul>
+    </article>
+
+    <article class="tool-card v13-card">
+      <div class="tool-icon">📦</div>
+      <h3>Batch Output</h3>
+      <label>Filename Prefix<input id="v13Prefix" value="Mahendra_MP_Online"></label>
+      <div id="v13BatchInfo" class="result-box">0 files selected</div>
+      <p class="small-note">Batch processing में क्रमांकित filenames बनाए जाएंगे।</p>
+    </article>
+
+    <article class="tool-card v13-card">
+      <div class="tool-icon">🔐</div>
+      <h3>Privacy & Processing</h3>
+      <div class="privacy-ok">✓ Browser-local image workflow</div>
+      <p>इस Studio में चुनी गई images को processing के लिए browser canvas में संभाला जाता है।</p>
+    </article>
+  </div>
+</section>
+<section class="v16-section" id="v16-tools">
+  <div class="section-head">
+    <h2>🚀 Photo, Signature & Batch Pro</h2>
+    <p>कई फोटो/हस्ताक्षर एक साथ तैयार करें और A4 photo sheet बनाएँ।</p>
+  </div>
+
+  <div class="v16-notice">
+    <strong>Pro Workflow:</strong> कई images चुनें → profile/size चुनें → crop + resize → target KB → format → batch output।
+    मूल files को browser में ही process किया जाता है।
+  </div>
+
+  <div class="v16-grid">
+    <article class="tool-card v16-card v16-main">
+      <div class="tool-icon">⚡</div>
+      <h3>Batch Pro Processor</h3>
+      <input id="v16Files" type="file" accept="image/*" multiple>
+      <div class="v16-controls">
+        <label>Profile
+          <select id="v16Profile">
+            <option value="custom">Custom</option>
+            <option value="photo">Photo — 413×531 px</option>
+            <option value="signature">Signature — 300×100 px</option>
+            <option value="smallphoto">Photo — 600×800 px</option>
+          </select>
+        </label>
+        <label>Width (px)<input id="v16W" type="number" min="1" value="413"></label>
+        <label>Height (px)<input id="v16H" type="number" min="1" value="531"></label>
+        <label>Target KB<input id="v16KB" type="number" min="1" value="100"></label>
+        <label>Format
+          <select id="v16Fmt"><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option><option value="image/png">PNG</option></select>
+        </label>
+        <label>Prefix<input id="v16Prefix" value="Mahendra_MP_Online"></label>
+      </div>
+      <div class="v16-actions">
+        <button class="primary-btn" id="v16Process">Batch Process & Download</button>
+        <button class="secondary-btn" id="v16Reset">Reset</button>
+      </div>
+      <div id="v16Status" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v16-card">
+      <div class="tool-icon">✂️</div>
+      <h3>Smart Crop</h3>
+      <label>Ratio
+        <select id="v16Ratio"><option value="free">Free</option><option value="35:45">35:45 Photo</option><option value="1:1">1:1</option><option value="2:3">2:3</option></select>
+      </label>
+      <label class="v16-check"><input id="v16Center" type="checkbox" checked> Center crop</label>
+      <div class="v16-preview"><canvas id="v16Canvas" width="1" height="1"></canvas></div>
+    </article>
+
+    <article class="tool-card v16-card">
+      <div class="tool-icon">🎯</div>
+      <h3>Exact KB Engine</h3>
+      <div class="v16-stat"><span>Target</span><b id="v16TargetStat">100 KB</b></div>
+      <div class="v16-stat"><span>Last output</span><b id="v16OutputStat">—</b></div>
+      <p class="small-note">JPG/WebP के लिए iterative quality search। PNG में lossless encoding के कारण exact KB guarantee नहीं है।</p>
+    </article>
+
+    <article class="tool-card v16-card">
+      <div class="tool-icon">📋</div>
+      <h3>Batch Queue</h3>
+      <div id="v16Queue" class="v16-queue">0 files</div>
+      <div id="v16Progress" class="v16-progress"><span></span></div>
+    </article>
+
+    <article class="tool-card v16-card">
+      <div class="tool-icon">🖨️</div>
+      <h3>Photo Sheet Pro</h3>
+      <div class="v16-controls compact">
+        <label>Width (mm)<input id="v16SheetW" type="number" min="1" value="35"></label>
+        <label>Height (mm)<input id="v16SheetH" type="number" min="1" value="45"></label>
+        <label>DPI<input id="v16SheetDpi" type="number" min="72" value="300"></label>
+        <label>Copies<input id="v16SheetCopies" type="number" min="1" max="100" value="8"></label>
+        <label>Gap (mm)<input id="v16SheetGap" type="number" min="0" value="3"></label>
+        <label>Sheet<select id="v16Sheet"><option value="A4">A4</option><option value="4x6">4×6</option></select></label>
+      </div>
+      <button class="secondary-btn" id="v16SheetMake">HQ Sheet बनाएं</button>
+      <div id="v16SheetStatus" class="result-box"></div>
+    </article>
+
+    <article class="tool-card v16-card">
+      <div class="tool-icon">🔐</div>
+      <h3>Privacy & Quality</h3>
+      <div class="privacy-ok">✓ Browser-local processing</div>
+      <p>Images browser canvas में process होती हैं। Low-resolution source की वास्तविक detail DPI बढ़ाने से नहीं बढ़ती।</p>
+    </article>
+  </div>
+</section>
+</details>
+
+<section class="about-contact" id="contact">
+  <div class="ac-wrap">
+    <div class="ac-card">
+      <h2>हमारे बारे में</h2>
+      <p><b>Mahendra MP Online</b> एक निजी डिजिटल सेवा केंद्र है। यहाँ फोटो/सिग्नेचर resize, ID कार्ड crop-print और PDF जैसे रोज़मर्रा के काम आसानी से होते हैं।</p>
+      <p class="ac-warn">यह वेबसाइट किसी सरकारी विभाग से संबद्ध नहीं है। सरकारी सेवाओं के लिए आधिकारिक पोर्टल का ही उपयोग करें।</p>
+    </div>
+    <div class="ac-card" id="contactCard" hidden>
+      <h2>संपर्क करें</h2>
+      <div id="contactLines"></div>
+      <div class="ac-actions" id="contactActions"></div>
+    </div>
+    <div class="ac-card">
+      <h2>आपकी प्राइवेसी</h2>
+      <ul>
+        <li>फोटो, आधार, PAN, DL जैसी फ़ाइलें आपके ही ब्राउज़र में प्रोसेस होती हैं; हमारे server पर नहीं भेजी जातीं।</li>
+        <li>PDF का पासवर्ड सिर्फ़ फ़ाइल खोलने के लिए ब्राउज़र में इस्तेमाल होता है, सेव नहीं होता।</li>
+        <li>शेयर्ड कंप्यूटर पर काम के बाद डाउनलोड की गई फ़ाइलें ज़रूर डिलीट करें।</li>
+        <li>किसी और का दस्तावेज़ केवल उसकी सहमति से ही इस्तेमाल करें।</li>
+      </ul>
+      <p><a href="privacy.html">पूरी Privacy Policy और शर्तें →</a></p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="sf-top"><strong>Mahendra MP Online</strong><span>Digital Service &amp; Print Center</span></div>
+  <div class="sf-links"><a href="#toolGrid">सभी काम</a><a href="#special-tools">आधार / DL / RC</a><a href="#contact">संपर्क</a><a href="privacy.html">Privacy Policy</a></div>
+  <small>महत्वपूर्ण: यह एक निजी सेवा है, किसी सरकारी विभाग से संबद्ध नहीं। सरकारी पोर्टल से डेटा/दस्तावेज़ लेने के लिए आधिकारिक वेबसाइट और उसकी प्रक्रिया का उपयोग करें। यह वेबसाइट लॉगिन, CAPTCHA या किसी सुरक्षा व्यवस्था को bypass नहीं करती। परीक्षा/फॉर्म की सही size, DPI और KB हमेशा आधिकारिक सूचना से जाँचें।</small>
+  <p class="sf-copy">© <span id="yr">2026</span> Mahendra MP Online</p>
+</footer>
+<button id="toTop" class="to-top" aria-label="ऊपर जाएँ" hidden>↑</button>
+<script src="shop-config.js"></script>
+<script src="script.js"></script>
+<script src="plus-core.js"></script>
+<script src="plus-pdf.js"></script>
+<script src="plus-image.js"></script>
+<script src="qr.js"></script>
+<script src="plus-util.js"></script>
+</body>
+</html>
