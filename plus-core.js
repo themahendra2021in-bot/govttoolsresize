@@ -320,6 +320,12 @@
       if (idx >= 0) { if (d.desc) tools[idx][3] = d.desc; if (d.tag) tools[idx][4] = d.tag; if (d.icon) tools[idx][1] = d.icon; }
       else tools.push([d.cat, d.icon, d.title, d.desc, d.tag || '']);
     });
+    // top order: P.top list ko sabse upar laao
+    if (P.top && P.top.length) {
+      var head = [];
+      P.top.forEach(function (title) { for (var i = 0; i < tools.length; i++) if (tools[i][2] === title) { head.push(tools.splice(i, 1)[0]); break; } });
+      Array.prototype.unshift.apply(tools, head);
+    }
     if (typeof searchTools === 'function') searchTools();
   };
 })();

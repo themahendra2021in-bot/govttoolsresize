@@ -491,4 +491,5 @@
       return 'जानकारी ऊपर है। Metadata हटी हुई PDF तैयार है।';
     }
   });
+  H.pdfx = { loadDoc: loadDoc, pdfBlob: pdfBlob, openJs: openJs, renderPage: renderPage, copyInto: copyInto, pwField: pwField, rotOf: rotOf, pinfo: pinfo, embedCanvas: embedCanvas, hexRgb: hexRgb };
 })();
