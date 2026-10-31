@@ -304,8 +304,11 @@
       { id: 'str', label: 'काला-सफ़ेद की तीव्रता', type: 'range', value: 12, min: 4, max: 30, step: 1, show: function (v) { return v('mode') === 'doc'; } }, FMT, KB
     ],
     run: function (c) {
-      return batch(c, '_scan', function (img) {
-        var cv = limit(img, 12e6), w = cv.width, h = cv.height, id = pix(cv), d = id.data, mode = c.v('mode');
+      return batch(c, '_scan', function (img) { return H.scanCv(img, c.v('mode'), c.v('str')); });
+    }
+  });
+  H.scanCv = function (img, mode, strv) {
+        var cv = limit(img, 12e6), w = cv.width, h = cv.height, id = pix(cv), d = id.data;
         var g = new Uint8ClampedArray(w * h);
         for (var i = 0, j = 0; i < d.length; i += 4, j++) g[j] = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
         function stretch(lo, hi) { var s = 255 / Math.max(1, hi - lo); return function (v) { v = (v - lo) * s; return v < 0 ? 0 : v > 255 ? 255 : v; }; }
@@ -313,7 +316,7 @@
         if (mode === 'doc') {
           var W = w + 1, ii = new Uint32Array(W * (h + 1));
           for (var y = 0; y < h; y++) { var row = 0; for (var x = 0; x < w; x++) { row += g[y * w + x]; ii[(y + 1) * W + x + 1] = ii[y * W + x + 1] + row; } }
-          var r = Math.max(8, Math.round(Math.min(w, h) / 40)), C = c.v('str') / 100;
+          var r = Math.max(8, Math.round(Math.min(w, h) / 40)), C = strv / 100;
           for (y = 0; y < h; y++) { var y0 = Math.max(0, y - r), y1 = Math.min(h, y + r + 1); for (x = 0; x < w; x++) { var x0 = Math.max(0, x - r), x1 = Math.min(w, x + r + 1), cnt = (x1 - x0) * (y1 - y0), sum = ii[y1 * W + x1] - ii[y0 * W + x1] - ii[y1 * W + x0] + ii[y0 * W + x0], mean = sum / cnt, v = g[y * w + x] < mean * (1 - C) ? 0 : 255, p = (y * w + x) * 4; d[p] = d[p + 1] = d[p + 2] = v; d[p + 3] = 255; } }
         } else if (mode === 'gray') {
           var q = pct(g), f = stretch(q[0], Math.max(q[0] + 20, q[1] - 10));
@@ -323,9 +326,7 @@
           for (i = 0; i < d.length; i += 4) { d[i] = f2(d[i]); d[i + 1] = f2(d[i + 1]); d[i + 2] = f2(d[i + 2]); d[i + 3] = 255; }
         }
         return put(cv, id);
-      });
-    }
-  });
+  };
 
   /* ---------- 9. B&W / Grayscale ---------- */
   A({
